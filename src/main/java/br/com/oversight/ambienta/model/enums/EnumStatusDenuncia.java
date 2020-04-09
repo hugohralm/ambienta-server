@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum EnumStatusDenuncia {
 
-    PENDENTE_ORGAO("Pendente"), RECEBIDA("Recebida pelo órgão");
+    AGUARDANDO_ANALISE("Aguardando Análise"), RECEBIDA("Recebida pelo órgão");
 
     private final String descricao;
 }

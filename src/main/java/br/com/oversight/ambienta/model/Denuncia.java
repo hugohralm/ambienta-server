@@ -22,9 +22,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.oversight.ambienta.model.enums.EnumStatusDenuncia;
-import br.com.oversight.ambienta.security.model.Usuario;
+import br.com.oversight.ambienta.util.Util;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,10 +48,20 @@ public class Denuncia {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro;
 
+    @Column(length = 255, nullable = false, updatable = false, unique = true)
+    private String codigoAcompanhamento;
+
     @Enumerated(EnumType.STRING)
     @NotNull(message = "O campo status é obrigatório")
     @Column(length = 40, nullable = false)
-    private EnumStatusDenuncia status = EnumStatusDenuncia.PENDENTE_ORGAO;
+    private EnumStatusDenuncia status = EnumStatusDenuncia.AGUARDANDO_ANALISE;
+
+    @CPF(message = "CPF inválido")
+    @Column(length = 11, updatable = false)
+    private String cpfDenunciante;
+
+    @Column(length = 255, updatable = false)
+    private String nomeDenunciante;
 
     @NotBlank(message = "Informe o título da denúncia.")
     @Length(min = 0, max = 255, message = "O limite do campo título é de 255 caracteres.")
@@ -71,17 +82,23 @@ public class Denuncia {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataOcorrido;
 
-    @Length(min = 0, max = 255, message = "O limite do campo denunciado é de 2048 caracteres.")
-    @Column(length = 255)
-    private String denunciado;
+    @Column(nullable = false, updatable = false)
+    private double latitude;
 
-    @ManyToOne
-    @JoinColumn(updatable = false)
-    private Usuario denunciante;
+    @Column(nullable = false, updatable = false)
+    private double longitude;
+
+    @ManyToOne(optional = false)
+    private Municipio municipio;
+
+    @Length(min = 0, max = 255, message = "O limite do campo nome do denunciado é de 255 caracteres.")
+    @Column(length = 255, updatable = false)
+    private String nomeDenunciado;
 
     @PrePersist
     private void prePersist() {
         this.dataCadastro = new Date();
+        this.codigoAcompanhamento = Util.randomString(8);
     }
 
     @Override

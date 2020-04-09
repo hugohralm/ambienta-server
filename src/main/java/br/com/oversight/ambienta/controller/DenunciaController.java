@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.hibernate.annotations.Where;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,18 +25,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.oversight.ambienta.model.Denuncia;
 import br.com.oversight.ambienta.model.TipoCategoria;
-import br.com.oversight.ambienta.service.DenunciaAnonimaService;
+import br.com.oversight.ambienta.service.DenunciaService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RestController
-@RequestMapping(value = "/api/denuncias-anonima")
-@Where(clause = "denunciante is null")
-public class DenunciaAnonimaController extends DefaultController {
+@RequestMapping(value = "/api/denuncias")
+public class DenunciaController extends DefaultController {
 
     @Autowired
-    private DenunciaAnonimaService service;
+    private DenunciaService service;
 
     /**
      * Armazena um {@link Denuncia} no sistema
@@ -67,6 +65,22 @@ public class DenunciaAnonimaController extends DefaultController {
     public ResponseEntity<?> read(@PathVariable Integer id) {
         log.trace("Buscando a denúncia por identificador {}", id);
         Denuncia denuncia = service.read(id);
+        HttpHeaders responseHeaders = getHttpHeaders(denuncia.getId());
+        return ResponseEntity.ok().headers(responseHeaders).body(denuncia);
+    }
+    
+    /**
+     * Retorna um {@link Denuncia} pelo codigoAcompanhamento informado
+     *
+     * @param codigoAcompanhamento Código de acompanhamento do recurso
+     * @return
+     */
+    @GetMapping(path = "/acompanhar/{codigoAcompanhamento}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Retorna a denúncia pelo seu código de acompanhamento.")
+    public ResponseEntity<?> read(@PathVariable String codigoAcompanhamento) {
+        log.trace("Buscando a denúncia pelo seu código de acompanhamento {}", codigoAcompanhamento);
+        Denuncia denuncia = service.readByCodigoAcompanhamento(codigoAcompanhamento);
         HttpHeaders responseHeaders = getHttpHeaders(denuncia.getId());
         return ResponseEntity.ok().headers(responseHeaders).body(denuncia);
     }
@@ -125,6 +139,7 @@ public class DenunciaAnonimaController extends DefaultController {
 
     @RequestMapping(method = RequestMethod.OPTIONS)
     public ResponseEntity<?> options() {
-        return ResponseEntity.ok().allow(HttpMethod.POST, HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.OPTIONS).build();
+        return ResponseEntity.ok()
+                .allow(HttpMethod.POST, HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.OPTIONS).build();
     }
 }

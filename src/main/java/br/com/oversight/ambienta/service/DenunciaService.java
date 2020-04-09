@@ -33,6 +33,11 @@ public class DenunciaService {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Denúncia %d", id)));
     }
 
+    public Denuncia readByCodigoAcompanhamento(String codigoAcompanhamento) {
+        return repository.findByCodigoAcompanhamento(codigoAcompanhamento)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Denúncia %d", codigoAcompanhamento)));
+    }
+
     public Page<Denuncia> read(String titulo, Pageable pageable) {
         if (StringUtils.hasText(titulo)) {
             return repository.findByTituloContainingIgnoreCaseOrderByTitulo(titulo, pageable);

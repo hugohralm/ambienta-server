@@ -68,6 +68,22 @@ public class DenunciaController extends DefaultController {
         HttpHeaders responseHeaders = getHttpHeaders(denuncia.getId());
         return ResponseEntity.ok().headers(responseHeaders).body(denuncia);
     }
+    
+    /**
+     * Retorna um {@link Denuncia} pelo codigoAcompanhamento informado
+     *
+     * @param codigoAcompanhamento Código de acompanhamento do recurso
+     * @return
+     */
+    @GetMapping(path = "/acompanhar/{codigoAcompanhamento}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Retorna a denúncia pelo seu código de acompanhamento.")
+    public ResponseEntity<?> read(@PathVariable String codigoAcompanhamento) {
+        log.trace("Buscando a denúncia pelo seu código de acompanhamento {}", codigoAcompanhamento);
+        Denuncia denuncia = service.readByCodigoAcompanhamento(codigoAcompanhamento);
+        HttpHeaders responseHeaders = getHttpHeaders(denuncia.getId());
+        return ResponseEntity.ok().headers(responseHeaders).body(denuncia);
+    }
 
     /**
      * Pesquisa um registro de {@link Denuncia} baseado numa descrição

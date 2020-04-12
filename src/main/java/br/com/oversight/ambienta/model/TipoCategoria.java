@@ -36,7 +36,7 @@ public class TipoCategoria {
     @SequenceGenerator(name = "TIPO_CATEGORIA_SEQ", sequenceName = "TIPO_CATEGORIA_SEQ", allocationSize = 1)
     private Integer id;
 
-    @Column(name = "DataCadastro", nullable = false)
+    @Column(name = "DataCadastro", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro;
 

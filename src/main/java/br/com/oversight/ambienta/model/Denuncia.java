@@ -16,6 +16,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -64,7 +65,7 @@ public class Denuncia {
     private String nomeDenunciante;
 
     @NotBlank(message = "Informe o título da denúncia.")
-    @Length(min = 0, max = 255, message = "O limite do campo título é de 255 caracteres.")
+    @Length(max = 255, message = "O limite do campo título é de 255 caracteres.")
     @Column(length = 255, nullable = false, updatable = false)
     private String titulo;
 
@@ -74,7 +75,7 @@ public class Denuncia {
     private Categoria categoria;
 
     @NotBlank(message = "Informe a descrição da denúncia.")
-    @Length(min = 0, max = 2048, message = "O limite do campo descrição é de 2048 caracteres.")
+    @Length(max = 2048, message = "O limite do campo descrição é de 2048 caracteres.")
     @Column(length = 2048, nullable = false, updatable = false)
     private String descricao;
 
@@ -91,9 +92,18 @@ public class Denuncia {
     @ManyToOne(optional = false)
     private Municipio municipio;
 
-    @Length(min = 0, max = 255, message = "O limite do campo nome do denunciado é de 255 caracteres.")
+    @Length(max = 255, message = "O limite do campo nome do denunciado é de 255 caracteres.")
     @Column(length = 255, updatable = false)
     private String nomeDenunciado;
+    
+    @Length(max = 11, message = "O limite do campo telefone é de 11 caracteres.")
+    @Column(length = 11, updatable = false)
+    private String telefone;
+    
+    @Email(message = "Email inválido")
+    @Length(max = 255, message = "O limite do campo email é de 255 caracteres.")
+    @Column(length = 255, updatable = false)
+    private String email;
 
     @PrePersist
     private void prePersist() {

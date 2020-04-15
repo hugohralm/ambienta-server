@@ -1,4 +1,4 @@
-package br.com.oversight.ambienta.controller;
+package br.com.oversight.ambienta.rest;
 
 import java.util.List;
 
@@ -25,38 +25,38 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.oversight.ambienta.interfaces.IController;
-import br.com.oversight.ambienta.model.Categoria;
-import br.com.oversight.ambienta.service.CategoriaService;
+import br.com.oversight.ambienta.model.TipoCategoria;
+import br.com.oversight.ambienta.service.TipoCategoriaService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RestController
-@RequestMapping(value = "/api/categorias")
-public class CategoriaController extends DefaultController implements IController<Categoria, Integer> {
+@RequestMapping(value = "/api/tipos-categoria")
+public class TipoCategoriaController extends DefaultController implements IController<TipoCategoria, Integer> {
 
     @Autowired
-    private CategoriaService service;
+    private TipoCategoriaService service;
 
     /**
-     * Armazena uma {@link Categoria} no sistema
+     * Armazena um {@link TipoCategoria} no sistema
      *
-     * @param categoria Representação do recurso
-     * @return ResponseEntity categoria
+     * @param tipoCategoria Representação do recurso
+     * @return ResponseEntity tipoCategoria
      */
     @Override
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Armazena o registro da categoria.")
-    public ResponseEntity<?> create(@Valid @RequestBody Categoria categoria) {
-        log.trace("Criando categoria {}", categoria);
-        categoria = service.create(categoria);
-        HttpHeaders responseHeaders = getHttpHeaders(categoria.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(categoria);
+    @ApiOperation(value = "Armazena o registro do tipo categoria.")
+    public ResponseEntity<?> create(@Valid @RequestBody TipoCategoria tipoCategoria) {
+        log.trace("Criando tipo categoria {}", tipoCategoria);
+        tipoCategoria = service.create(tipoCategoria);
+        HttpHeaders responseHeaders = getHttpHeaders(tipoCategoria.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(tipoCategoria);
     }
 
     /**
-     * Retorna um {@link Categoria} pelo identificador informado
+     * Retorna um {@link TipoCategoria} pelo identificador informado
      *
      * @param id Identificador do recurso
      * @return
@@ -64,16 +64,16 @@ public class CategoriaController extends DefaultController implements IControlle
     @Override
     @GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Retorna a categoria pelo seu Identificador.")
+    @ApiOperation(value = "Retorna o tipo categoria pelo seu Identificador.")
     public ResponseEntity<?> read(@PathVariable Integer id) {
-        log.trace("Buscando categoria por identificador {}", id);
-        Categoria categoria = service.read(id);
-        HttpHeaders responseHeaders = getHttpHeaders(categoria.getId());
-        return ResponseEntity.ok().headers(responseHeaders).body(categoria);
+        log.trace("Buscando tipo categoria por identificador {}", id);
+        TipoCategoria tipoCategoria = service.read(id);
+        HttpHeaders responseHeaders = getHttpHeaders(tipoCategoria.getId());
+        return ResponseEntity.ok().headers(responseHeaders).body(tipoCategoria);
     }
 
     /**
-     * Pesquisa um registro de {@link Categoria} baseado numa descrição
+     * Pesquisa um registro de {@link TipoCategoria} baseado numa descrição
      *
      * @param descricao Campo a ser pesquisado
      * @param page      Página inicial
@@ -83,10 +83,10 @@ public class CategoriaController extends DefaultController implements IControlle
     @Override
     @GetMapping(path = "/page", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Listar as categorias em ordem alfabética.")
+    @ApiOperation(value = "Listar o tipo categoria em ordem alfabética.")
     public ResponseEntity<?> read(@RequestParam(required = false) String nome,
             @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "20") Integer size) {
-        Page<Categoria> list = service.read(nome, PageRequest.of(page, size));
+        Page<TipoCategoria> list = service.read(nome, PageRequest.of(page, size));
         ResponseHeaderPaginable responseHeaderPaginable = new ResponseHeaderPaginable(page, list);
         responseHeaderPaginable.invoke();
         HttpStatus status = responseHeaderPaginable.getStatus();
@@ -95,20 +95,20 @@ public class CategoriaController extends DefaultController implements IControlle
     }
 
     /**
-     * Pesquisa todos os registros de {@link Categoria}
+     * Pesquisa todos os registros de {@link TipoCategoria}
      *
      * @return
      */
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Listar todas as categorias em ordem alfabética.")
+    @ApiOperation(value = "Listar todos os tipos de categoria em ordem alfabética.")
     public ResponseEntity<?> read() {
-        List<Categoria> list = service.read();
+        List<TipoCategoria> list = service.read();
         return ResponseEntity.ok().body(list);
     }
 
     /**
-     * Atualização registro de um {@link Categoria}
+     * Atualização registro de um {@link TipoCategoria}
      *
      * @param id            Identificador do recurso
      * @param tipoCategoria Representação do recurso
@@ -117,26 +117,26 @@ public class CategoriaController extends DefaultController implements IControlle
     @Override
     @PutMapping(path = "/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Altera, restritamente, todo o registro da categoria.")
-    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody Categoria categoria) {
-        log.trace("Alterando categoria {}", categoria);
-        categoria.setId(id);
-        service.update(categoria);
+    @ApiOperation(value = "Altera, restritamente, todo o registro do tipo de categoria.")
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody TipoCategoria tipoCategoria) {
+        log.trace("Alterando tipo categoria {}", tipoCategoria);
+        tipoCategoria.setId(id);
+        service.update(tipoCategoria);
         HttpHeaders responseHeaders = getHttpHeaders(null);
         return ResponseEntity.noContent().headers(responseHeaders).build();
     }
 
     /**
-     * Remove um registro de {@link Categoria}
+     * Remove um registro de {@link TipoCategoria}
      *
-     * @param id Identificador da {@link Categoria}
+     * @param id Identificador da {@link TipoCategoria}
      * @return
      */
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ApiOperation(value = "Remove o registro da categoria.")
+    @ApiOperation(value = "Remove o registro do tipo de categoria.")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
-        log.trace("Removendo categoria {}", id);
+        log.trace("Removendo tipo categoria {}", id);
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

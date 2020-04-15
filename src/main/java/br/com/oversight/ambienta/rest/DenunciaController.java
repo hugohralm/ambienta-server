@@ -1,4 +1,4 @@
-package br.com.oversight.ambienta.controller;
+package br.com.oversight.ambienta.rest;
 
 import java.util.List;
 

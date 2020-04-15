@@ -1,4 +1,4 @@
-package br.com.oversight.ambienta.controller;
+package br.com.oversight.ambienta.rest;
 
 import java.util.List;
 
@@ -25,38 +25,38 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.oversight.ambienta.interfaces.IController;
-import br.com.oversight.ambienta.model.Orgao;
-import br.com.oversight.ambienta.service.OrgaoService;
+import br.com.oversight.ambienta.model.Categoria;
+import br.com.oversight.ambienta.service.CategoriaService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RestController
-@RequestMapping(value = "/api/orgaos")
-public class OrgaoController extends DefaultController implements IController<Orgao, Integer> {
+@RequestMapping(value = "/api/categorias")
+public class CategoriaController extends DefaultController implements IController<Categoria, Integer> {
 
     @Autowired
-    private OrgaoService service;
+    private CategoriaService service;
 
     /**
-     * Armazena um {@link Orgao} no sistema
+     * Armazena uma {@link Categoria} no sistema
      *
-     * @param tipoCategoria Representação do recurso
-     * @return ResponseEntity tipoCategoria
+     * @param categoria Representação do recurso
+     * @return ResponseEntity categoria
      */
     @Override
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Armazena o registro do órgão.")
-    public ResponseEntity<?> create(@Valid @RequestBody Orgao orgao) {
-        log.trace("Criando órgão {}", orgao);
-        orgao = service.create(orgao);
-        HttpHeaders responseHeaders = getHttpHeaders(orgao.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(orgao);
+    @ApiOperation(value = "Armazena o registro da categoria.")
+    public ResponseEntity<?> create(@Valid @RequestBody Categoria categoria) {
+        log.trace("Criando categoria {}", categoria);
+        categoria = service.create(categoria);
+        HttpHeaders responseHeaders = getHttpHeaders(categoria.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(categoria);
     }
 
     /**
-     * Retorna um {@link Orgao} pelo identificador informado
+     * Retorna um {@link Categoria} pelo identificador informado
      *
      * @param id Identificador do recurso
      * @return
@@ -64,16 +64,16 @@ public class OrgaoController extends DefaultController implements IController<Or
     @Override
     @GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Retorna o órgão pelo seu Identificador.")
+    @ApiOperation(value = "Retorna a categoria pelo seu Identificador.")
     public ResponseEntity<?> read(@PathVariable Integer id) {
-        log.trace("Buscando tipo categoria por identificador {}", id);
-        Orgao orgao = service.read(id);
-        HttpHeaders responseHeaders = getHttpHeaders(orgao.getId());
-        return ResponseEntity.ok().headers(responseHeaders).body(orgao);
+        log.trace("Buscando categoria por identificador {}", id);
+        Categoria categoria = service.read(id);
+        HttpHeaders responseHeaders = getHttpHeaders(categoria.getId());
+        return ResponseEntity.ok().headers(responseHeaders).body(categoria);
     }
 
     /**
-     * Pesquisa um registro de {@link Orgao} baseado numa descrição
+     * Pesquisa um registro de {@link Categoria} baseado numa descrição
      *
      * @param descricao Campo a ser pesquisado
      * @param page      Página inicial
@@ -83,10 +83,10 @@ public class OrgaoController extends DefaultController implements IController<Or
     @Override
     @GetMapping(path = "/page", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Listar o órgão em ordem alfabética.")
+    @ApiOperation(value = "Listar as categorias em ordem alfabética.")
     public ResponseEntity<?> read(@RequestParam(required = false) String nome,
             @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "20") Integer size) {
-        Page<Orgao> list = service.read(nome, PageRequest.of(page, size));
+        Page<Categoria> list = service.read(nome, PageRequest.of(page, size));
         ResponseHeaderPaginable responseHeaderPaginable = new ResponseHeaderPaginable(page, list);
         responseHeaderPaginable.invoke();
         HttpStatus status = responseHeaderPaginable.getStatus();
@@ -95,20 +95,20 @@ public class OrgaoController extends DefaultController implements IController<Or
     }
 
     /**
-     * Pesquisa todos os registros de {@link Orgao}
+     * Pesquisa todos os registros de {@link Categoria}
      *
      * @return
      */
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Listar todos os órgãos em ordem alfabética.")
+    @ApiOperation(value = "Listar todas as categorias em ordem alfabética.")
     public ResponseEntity<?> read() {
-        List<Orgao> list = service.read();
+        List<Categoria> list = service.read();
         return ResponseEntity.ok().body(list);
     }
 
     /**
-     * Atualização registro de um {@link Orgao}
+     * Atualização registro de um {@link Categoria}
      *
      * @param id            Identificador do recurso
      * @param tipoCategoria Representação do recurso
@@ -117,26 +117,26 @@ public class OrgaoController extends DefaultController implements IController<Or
     @Override
     @PutMapping(path = "/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Altera, restritamente, todo o registro do órgão.")
-    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody Orgao orgao) {
-        log.trace("Alterando órgão {}", orgao);
-        orgao.setId(id);
-        service.update(orgao);
+    @ApiOperation(value = "Altera, restritamente, todo o registro da categoria.")
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody Categoria categoria) {
+        log.trace("Alterando categoria {}", categoria);
+        categoria.setId(id);
+        service.update(categoria);
         HttpHeaders responseHeaders = getHttpHeaders(null);
         return ResponseEntity.noContent().headers(responseHeaders).build();
     }
 
     /**
-     * Remove um registro de {@link Orgao}
+     * Remove um registro de {@link Categoria}
      *
-     * @param id Identificador da {@link Orgao}
+     * @param id Identificador da {@link Categoria}
      * @return
      */
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ApiOperation(value = "Remove o registro do órgão.")
+    @ApiOperation(value = "Remove o registro da categoria.")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
-        log.trace("Removendo órgão {}", id);
+        log.trace("Removendo categoria {}", id);
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

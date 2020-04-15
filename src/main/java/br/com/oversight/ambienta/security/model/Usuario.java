@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -73,7 +74,7 @@ public class Usuario {
     @NotNull
     private boolean ativado = false;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "USUARIO_PAPEL", joinColumns = {
             @JoinColumn(name = "USUARIO_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
                     @JoinColumn(name = "PAPEL_NOME", referencedColumnName = "NOME") })

@@ -83,13 +83,9 @@ public class Denuncia {
    @Column(updatable = false)
    private String nomeDenunciado;
 
-   @Length(max = 11, message = "O limite do campo telefone é de 11 caracteres.")
-   @Column(length = 11, updatable = false, nullable = false)
-   private String telefone;
-
    @Email(message = "Email inválido")
    @Length(max = 255, message = "O limite do campo email é de 255 caracteres.")
-   @Column(updatable = false, nullable = false)
+   @Column(updatable = false)
    private String email;
 
    @PrePersist

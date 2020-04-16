@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 public interface IController<T, N> {
 
-    ResponseEntity<?> create(T entity);
+   ResponseEntity<?> create(T entity);
 
-    ResponseEntity<?> read(@PathVariable N id);
+   ResponseEntity<?> read(@PathVariable N id);
 
-    ResponseEntity<?> read(String descricao, Integer page, Integer size);
+   ResponseEntity<?> read(String descricao, Integer page, Integer size);
 
-    ResponseEntity<?> update(N id, T entity);
+   ResponseEntity<?> update(N id, T entity);
 
-    ResponseEntity<?> delete(N id);
+   ResponseEntity<?> delete(N id);
 
-    ResponseEntity<?> options();
+   ResponseEntity<?> options();
 
 }

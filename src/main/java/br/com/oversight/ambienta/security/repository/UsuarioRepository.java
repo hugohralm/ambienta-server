@@ -1,14 +1,13 @@
 package br.com.oversight.ambienta.security.repository;
 
-import java.util.Optional;
-
+import br.com.oversight.ambienta.security.model.Usuario;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.oversight.ambienta.security.model.Usuario;
+import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
- 
+
    @EntityGraph(attributePaths = "papeis")
    Optional<Usuario> findOneWithPapelByCpf(String cpf);
 

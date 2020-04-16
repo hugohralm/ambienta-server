@@ -1,5 +1,9 @@
 package br.com.oversight.ambienta.config;
 
+import br.com.oversight.ambienta.security.JwtAccessDeniedHandler;
+import br.com.oversight.ambienta.security.JwtAuthenticationEntryPoint;
+import br.com.oversight.ambienta.security.jwt.JWTConfigurer;
+import br.com.oversight.ambienta.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,11 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
-
-import br.com.oversight.ambienta.security.JwtAccessDeniedHandler;
-import br.com.oversight.ambienta.security.JwtAuthenticationEntryPoint;
-import br.com.oversight.ambienta.security.jwt.JWTConfigurer;
-import br.com.oversight.ambienta.security.jwt.TokenProvider;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)

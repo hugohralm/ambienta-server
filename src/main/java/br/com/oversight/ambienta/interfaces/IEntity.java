@@ -2,8 +2,8 @@ package br.com.oversight.ambienta.interfaces;
 
 public interface IEntity<T> {
 
-    T getId();
+   T getId();
 
-    void setId(T id);
+   void setId(T id);
 
 }

@@ -19,10 +19,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -48,9 +51,10 @@ public class Usuario {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro;
 
-    @Column(name = "CPF", length = 50, unique = true, updatable = false)
+    @CPF(message = "CPF inválido")
+    @Column(name = "CPF", length = 11, unique = true, updatable = false)
     @NotNull
-    @Size(min = 4, max = 50)
+    @Size(min = 11, max = 11)
     private String cpf;
 
     @JsonIgnore
@@ -59,14 +63,14 @@ public class Usuario {
     @Size(min = 4, max = 100)
     private String senha;
 
-    @Column(name = "NOME", length = 50)
+    @Column(name = "NOME", length = 255)
     @NotNull
-    @Size(min = 4, max = 50)
+    @Size(min = 10, max = 255)
     private String nome;
 
-    @Column(name = "EMAIL", length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
+    @Email(message = "Email inválido")
+    @Length(max = 255, message = "O limite do campo email é de 255 caracteres.")
+    @Column(length = 255)
     private String email;
 
     @JsonIgnore

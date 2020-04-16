@@ -90,6 +90,7 @@ public class Denuncia {
     private double longitude;
 
     @ManyToOne(optional = false)
+    @JoinColumn(updatable = false)
     private Municipio municipio;
 
     @Length(max = 255, message = "O limite do campo nome do denunciado é de 255 caracteres.")
@@ -97,12 +98,12 @@ public class Denuncia {
     private String nomeDenunciado;
     
     @Length(max = 11, message = "O limite do campo telefone é de 11 caracteres.")
-    @Column(length = 11, updatable = false)
+    @Column(length = 11, updatable = false, nullable = false)
     private String telefone;
     
     @Email(message = "Email inválido")
     @Length(max = 255, message = "O limite do campo email é de 255 caracteres.")
-    @Column(length = 255, updatable = false)
+    @Column(length = 255, updatable = false, nullable = false)
     private String email;
 
     @PrePersist

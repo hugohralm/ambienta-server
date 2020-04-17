@@ -3,6 +3,7 @@ package br.com.oversight.ambienta.service;
 import br.com.oversight.ambienta.interfaces.IService;
 import br.com.oversight.ambienta.model.Orgao;
 import br.com.oversight.ambienta.repository.OrgaoRepository;
+import br.com.oversight.ambienta.security.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +21,14 @@ public class OrgaoService implements IService<Orgao, Integer> {
    @Autowired
    private OrgaoRepository repository;
 
+   @Autowired
+   private UsuarioRepository usuarioRepository;
+
    @Override
    public Orgao create(Orgao orgao) {
+      if (orgao.getGestor() != null) {
+         usuarioRepository.findOneWithPapelByCpf(orgao.getGestor().getCpf()).ifPresent(orgao::setGestor);
+      }
       return repository.save(orgao);
    }
 
@@ -46,6 +53,9 @@ public class OrgaoService implements IService<Orgao, Integer> {
 
    @Override
    public void update(Orgao orgao) {
+      if (orgao.getGestor() != null) {
+         usuarioRepository.findOneWithPapelByCpf(orgao.getGestor().getCpf()).ifPresent(orgao::setGestor);
+      }
       repository.save(orgao);
    }
 

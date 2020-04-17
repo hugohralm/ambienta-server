@@ -1,8 +1,10 @@
 package br.com.oversight.ambienta.rest;
 
 import br.com.oversight.ambienta.model.Denuncia;
+import br.com.oversight.ambienta.model.Municipio;
 import br.com.oversight.ambienta.model.TipoCategoria;
 import br.com.oversight.ambienta.service.DenunciaService;
+import br.com.oversight.ambienta.service.LocationService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class DenunciaController extends DefaultController {
    @Autowired
    private DenunciaService service;
 
+   @Autowired
+   private LocationService locationService;
+
    /**
     * Armazena um {@link Denuncia} no sistema
     *
@@ -33,6 +38,10 @@ public class DenunciaController extends DefaultController {
    @ApiOperation(value = "Armazena o registro da denúncia.")
    public ResponseEntity<?> create(@Valid @RequestBody Denuncia denuncia) {
       log.trace("Criando denúncia {}", denuncia);
+      Municipio municipio = locationService.getMunicipio(denuncia.getLatitude(), denuncia.getLongitude());
+      if (municipio != null) {
+         denuncia.setMunicipio(municipio);
+      }
       denuncia = service.create(denuncia);
       HttpHeaders responseHeaders = getHttpHeaders(denuncia.getId());
       return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(denuncia);
@@ -74,8 +83,8 @@ public class DenunciaController extends DefaultController {
     * Pesquisa um registro de {@link Denuncia} baseado numa descrição
     *
     * @param nome Campo a ser pesquisado
-    * @param page      Página inicial
-    * @param size      Tamanho da paginação
+    * @param page Página inicial
+    * @param size Tamanho da paginação
     * @return
     */
    @GetMapping(path = "/page", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -107,7 +116,7 @@ public class DenunciaController extends DefaultController {
    /**
     * Atualização registro de um {@link TipoCategoria}
     *
-    * @param id            Identificador do recurso
+    * @param id       Identificador do recurso
     * @param denuncia Representação do recurso
     * @return
     */

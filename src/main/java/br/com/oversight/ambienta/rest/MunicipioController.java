@@ -43,18 +43,18 @@ public class MunicipioController extends DefaultController {
    /**
     * Retorna um {@link Municipio} pelo identificador informado
     *
-    * @param codigoIbge Identificador do recurso
+    * @param ibge Identificador do recurso
     * @return
     */
    @GetMapping(path = "ibge/{ibge}", produces = {MediaType.APPLICATION_JSON_VALUE})
    @ResponseStatus(HttpStatus.OK)
    @ApiOperation(value = "Retorna o municipio pelo seu código IBGE.")
-   public ResponseEntity<?> readByIbgeCode(@PathVariable Integer codigoIbge) {
+   public ResponseEntity<?> readByIbgeCode(@PathVariable Integer ibge) {
       String methodName = new Object() {
       }.getClass().getEnclosingMethod().getName();
-      log.debug(String.format("Método: %s | Parâmetro: %d", methodName, codigoIbge));
-      log.trace("Buscando municipio por identificador {}", codigoIbge);
-      Municipio municipio = municipioService.readByIbgeCode(codigoIbge);
+      log.debug(String.format("Método: %s | Parâmetro: %d", methodName, ibge));
+      log.trace("Buscando municipio por identificador {}", ibge);
+      Municipio municipio = municipioService.readByIbgeCode(ibge);
       HttpHeaders responseHeaders = getHttpHeaders(municipio.getId());
       return ResponseEntity.ok().headers(responseHeaders).body(municipio);
    }

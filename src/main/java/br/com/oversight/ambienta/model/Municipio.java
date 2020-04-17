@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @Entity
@@ -17,7 +18,9 @@ import javax.validation.constraints.NotBlank;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-public class Municipio {
+public class Municipio implements Serializable {
+
+   private static final long serialVersionUID = 1L;
 
    @Id
    @Column(name = "ID")

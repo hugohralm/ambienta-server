@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -18,7 +19,9 @@ import java.util.Objects;
 @DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
-public class TipoCategoria {
+public class TipoCategoria implements Serializable {
+
+   private static final long serialVersionUID = 1L;
 
    @Id
    @Column(name = "ID")

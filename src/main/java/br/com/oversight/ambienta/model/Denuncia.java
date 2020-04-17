@@ -14,6 +14,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -23,7 +24,9 @@ import java.util.Objects;
 @DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
-public class Denuncia {
+public class Denuncia implements Serializable {
+
+   private static final long serialVersionUID = 1L;
 
    @Id
    @Column(name = "ID")
@@ -75,7 +78,7 @@ public class Denuncia {
    @Column(nullable = false, updatable = false)
    private double longitude;
 
-   @ManyToOne(optional = false)
+   @ManyToOne
    @JoinColumn(updatable = false)
    private Municipio municipio;
 

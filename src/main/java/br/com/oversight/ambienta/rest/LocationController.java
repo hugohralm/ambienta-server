@@ -1,6 +1,6 @@
 package br.com.oversight.ambienta.rest;
 
-import br.com.oversight.ambienta.model.Municipio;
+import br.com.oversight.ambienta.model.dto.AddressTO;
 import br.com.oversight.ambienta.model.dto.EnderecoTO;
 import br.com.oversight.ambienta.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/locations")
+@RequestMapping(value = "/api/localizacoes")
 public class LocationController {
 
    @Autowired
    private LocationService locationService;
 
-   @GetMapping(value = "/{cep}")
+   @GetMapping(value = "/endereco/{cep}")
    public ResponseEntity<EnderecoTO> read(@PathVariable(name = "cep") String cep) {
-      return new ResponseEntity<>(locationService.getEnderecoTO(cep), HttpStatus.OK);
+      return new ResponseEntity<>(locationService.getEndereco(cep), HttpStatus.OK);
    }
 
-   @GetMapping
-   public ResponseEntity<Municipio> read() {
-      return new ResponseEntity<>(locationService.getMunicipio(-49.294377, -16.741160), HttpStatus.OK);
+   @GetMapping(value = "/geocodeReverso/{lat},{lng}")
+   public ResponseEntity<AddressTO> read(@PathVariable(name = "lat") double lat, @PathVariable(name = "lng") double lng) {
+      return new ResponseEntity<>(locationService.getReverseGeocode(lng, lat), HttpStatus.OK);
    }
 }

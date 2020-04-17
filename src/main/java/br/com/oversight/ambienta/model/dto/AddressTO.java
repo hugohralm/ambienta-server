@@ -1,9 +1,7 @@
 package br.com.oversight.ambienta.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 
-@Getter
 public class AddressTO {
    private String address;
    private String district;
@@ -12,6 +10,41 @@ public class AddressTO {
    private String territory;
    private String postal;
    private String countryCode;
+
+   @JsonProperty("endereco")
+   public String getAddress() {
+      return address;
+   }
+
+   @JsonProperty("bairro")
+   public String getDistrict() {
+      return district;
+   }
+
+   @JsonProperty("cidade")
+   public String getCity() {
+      return city;
+   }
+
+   @JsonProperty("estado")
+   public String getRegion() {
+      return region;
+   }
+
+   @JsonProperty("regiao")
+   public String getTerritory() {
+      return territory;
+   }
+
+   @JsonProperty("cep")
+   public String getPostal() {
+      return postal;
+   }
+
+   @JsonProperty("codigoPais")
+   public String getCountryCode() {
+      return countryCode;
+   }
 
    @JsonProperty("Address")
    public void setAddress(String value) {
@@ -40,7 +73,7 @@ public class AddressTO {
 
    @JsonProperty("Postal")
    public void setPostal(String value) {
-      this.postal = value.replaceAll("\\D+","");
+      this.postal = value.replaceAll("\\D+", "");
    }
 
    @JsonProperty("CountryCode")

@@ -7,6 +7,7 @@ import br.com.oversight.ambienta.security.rest.dto.UsuarioDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,11 @@ public class UsuarioService {
    @Transactional(readOnly = true)
    public Optional<Usuario> getUserWithAuthorities() {
       return SecurityUtils.getCurrentUsername().flatMap(usuarioRepository::findOneWithPapelByCpf);
+   }
+
+   @Transactional(readOnly = true)
+   public List<Usuario> getAll() {
+      return usuarioRepository.findAllByOrderByNomeAsc();
    }
 
    public Usuario create(UsuarioDto usuarioDto) {

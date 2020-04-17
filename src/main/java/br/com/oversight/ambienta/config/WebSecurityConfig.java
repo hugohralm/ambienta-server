@@ -25,6 +25,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    private final CorsFilter corsFilter;
    private final JwtAuthenticationEntryPoint authenticationErrorHandler;
    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+   private static final String[] SWAGGER = {
+      "/v2/api-docs",
+      "/swagger-resources/**",
+      "/api/authenticate"
+   };
+   private static final String[] PUBLIC_MATCHERS_GET = {
+      "/api/localizacoes/**",
+      "/api/municipios/**",
+      "/api/tipos-categoria/**",
+      "/api/categorias/**",
+      "/api/orgaos/**"
+   };
 
    public WebSecurityConfig(
       TokenProvider tokenProvider,
@@ -87,17 +99,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          .authorizeRequests()
 //         .antMatchers("/api/person").hasAuthority("USUARIO")
 //         .antMatchers("/api/hiddenmessage").hasAuthority("ADMIN")
-         .antMatchers(
-            "/v2/api-docs",
-            "/swagger-resources/**",
-            "/api/authenticate")
-         .permitAll()
-         .antMatchers("/api/tipos-categoria/**").permitAll()
-         .antMatchers("/api/categorias/**").permitAll()
-         .antMatchers("/api/orgaos/**").permitAll()
-         .antMatchers("/api/municipios/**").permitAll()
+         .antMatchers(SWAGGER).permitAll()
+         .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+         //TODO Revisar permissões
+         .antMatchers("/api/usuarios/**").permitAll()
          .antMatchers("/api/denuncias/**").permitAll()
-         .antMatchers("/api/locations/**").permitAll()
          .anyRequest().authenticated()
 
          .and()

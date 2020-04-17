@@ -1,7 +1,6 @@
 package br.com.oversight.ambienta.model;
 
 import br.com.oversight.ambienta.security.model.Usuario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,11 +35,10 @@ public class Orgao implements Serializable {
    private Date dataCadastro;
 
    @NotBlank(message = "Informe o nome do orgão.")
-   @Length(min = 0, max = 255, message = "O limite do campo nome é de 255 caracteres.")
+   @Length(max = 255, message = "O limite do campo nome é de 255 caracteres.")
    @Column(name = "Nome", nullable = false)
    private String nome;
 
-   @JsonIgnore
    @ManyToOne
    private Usuario gestor;
 

@@ -38,7 +38,7 @@ public class DenunciaController extends DefaultController {
    @ApiOperation(value = "Armazena o registro da denúncia.")
    public ResponseEntity<?> create(@Valid @RequestBody Denuncia denuncia) {
       log.trace("Criando denúncia {}", denuncia);
-      Municipio municipio = locationService.getMunicipio(denuncia.getLatitude(), denuncia.getLongitude());
+      Municipio municipio = locationService.getMunicipio(denuncia.getLongitude(), denuncia.getLatitude());
       if (municipio != null) {
          denuncia.setMunicipio(municipio);
       }

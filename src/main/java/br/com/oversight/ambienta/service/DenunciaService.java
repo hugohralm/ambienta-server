@@ -19,8 +19,8 @@ public class DenunciaService {
    @Autowired
    private DenunciaRepository repository;
 
-   public Denuncia create(Denuncia orgao) {
-      return repository.save(orgao);
+   public Denuncia create(Denuncia denuncia) {
+      return repository.saveAndFlush(denuncia);
    }
 
    public List<Denuncia> read() {

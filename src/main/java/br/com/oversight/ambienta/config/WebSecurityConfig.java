@@ -104,6 +104,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          //TODO Revisar permissões
          .antMatchers("/api/usuarios/**").permitAll()
          .antMatchers("/api/denuncias/**").permitAll()
+         .antMatchers("/api/evidencias/**").permitAll()
          .anyRequest().authenticated()
 
          .and()

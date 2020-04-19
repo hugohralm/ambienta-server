@@ -26,7 +26,6 @@ public class Categoria implements Serializable {
    private static final long serialVersionUID = 1L;
 
    @Id
-   @Column(name = "ID")
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
 
@@ -41,7 +40,7 @@ public class Categoria implements Serializable {
 
    @NotBlank(message = "Informe o nome da categoria.")
    @Length(max = 255, message = "O limite do campo nome é de 255 caracteres.")
-   @Column(name = "Nome", nullable = false)
+   @Column(nullable = false)
    private String nome;
 
    @ManyToOne(optional = false)

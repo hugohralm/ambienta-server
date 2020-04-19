@@ -1,10 +1,8 @@
 package br.com.oversight.ambienta.model;
 
-import br.com.oversight.ambienta.security.model.Papel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
@@ -28,17 +26,16 @@ public class TipoCategoria implements Serializable {
    private static final long serialVersionUID = 1L;
 
    @Id
-   @Column(name = "ID")
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
 
-   @Column(name = "DataCadastro", nullable = false, updatable = false)
+   @Column(nullable = false, updatable = false)
    @Temporal(TemporalType.TIMESTAMP)
    private Date dataCadastro;
 
    @NotBlank(message = "Informe o nome do tipo de categoria.")
    @Length(max = 255, message = "O limite do campo nome é de 255 caracteres.")
-   @Column(name = "Nome", nullable = false)
+   @Column(nullable = false)
    private String nome;
 
    @Column(nullable = false)

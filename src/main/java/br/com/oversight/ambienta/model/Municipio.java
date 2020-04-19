@@ -23,7 +23,6 @@ public class Municipio implements Serializable {
    private static final long serialVersionUID = 1L;
 
    @Id
-   @Column(name = "ID")
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
 
@@ -38,6 +37,15 @@ public class Municipio implements Serializable {
 
    @Column(nullable = false, updatable = false)
    private Integer codigoIbge;
+
+   @Column(nullable = false, updatable = false)
+   private double latitude;
+
+   @Column(nullable = false, updatable = false)
+   private double longitude;
+
+   @Column(nullable = false, updatable = false)
+   private boolean capital;
 
    @Override
    public String toString() {

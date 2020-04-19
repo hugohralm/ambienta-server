@@ -1,15 +1,12 @@
 package br.com.oversight.ambienta.model;
 
-import br.com.oversight.ambienta.security.model.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -20,7 +17,7 @@ import java.util.Objects;
 @DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
-public class Orgao implements Serializable {
+public class Evidencia implements Serializable {
 
    private static final long serialVersionUID = 1L;
 
@@ -32,20 +29,30 @@ public class Orgao implements Serializable {
    @Temporal(TemporalType.TIMESTAMP)
    private Date dataCadastro;
 
-   @NotBlank(message = "Informe o nome do orgão.")
-   @Length(max = 255, message = "O limite do campo nome é de 255 caracteres.")
    @Column(nullable = false)
-   private String nome;
-
-   @ManyToOne
-   private Usuario gestor;
+   private String idPublico;
 
    @Column(nullable = false)
-   private boolean ativo = false;
+   private String assinatura;
+
+   @Column(nullable = false)
+   private String formato;
+
+   @Column(nullable = false)
+   private String tipoArquivo;
+
+   @Column(nullable = false)
+   private String url;
+
+   @ManyToOne(optional = true)
+//   @NotNull(message = "Informe qual a denúncia.")
+   private Denuncia denuncia;
 
    @PrePersist
    private void prePersist() {
       this.dataCadastro = new Date();
+      this.formato = this.formato.toUpperCase();
+      this.tipoArquivo = this.tipoArquivo.toUpperCase();
    }
 
    @Override
@@ -54,7 +61,7 @@ public class Orgao implements Serializable {
          return true;
       if (o == null || getClass() != o.getClass())
          return false;
-      Orgao user = (Orgao) o;
+      Evidencia user = (Evidencia) o;
       return id.equals(user.id);
    }
 

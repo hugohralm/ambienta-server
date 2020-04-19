@@ -1,8 +1,10 @@
 package br.com.oversight.ambienta.model;
 
+import br.com.oversight.ambienta.security.model.Papel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
@@ -11,7 +13,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 @Entity
@@ -25,8 +29,7 @@ public class TipoCategoria implements Serializable {
 
    @Id
    @Column(name = "ID")
-   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TIPO_CATEGORIA_SEQ")
-   @SequenceGenerator(name = "TIPO_CATEGORIA_SEQ", sequenceName = "TIPO_CATEGORIA_SEQ", allocationSize = 1)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
 
    @Column(name = "DataCadastro", nullable = false, updatable = false)
@@ -40,6 +43,9 @@ public class TipoCategoria implements Serializable {
 
    @Column(nullable = false)
    private boolean ativo = false;
+
+   @OneToMany(mappedBy = "tipo")
+   private Set<Categoria> categorias = new HashSet<>();
 
    @PrePersist
    private void prePersist() {

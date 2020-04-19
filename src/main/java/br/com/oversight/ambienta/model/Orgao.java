@@ -26,8 +26,7 @@ public class Orgao implements Serializable {
 
    @Id
    @Column(name = "ID")
-   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORGAO_SEQ")
-   @SequenceGenerator(name = "ORGAO_SEQ", sequenceName = "ORGAO_SEQ", allocationSize = 1)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
 
    @Column(name = "DataCadastro", nullable = false, updatable = false)

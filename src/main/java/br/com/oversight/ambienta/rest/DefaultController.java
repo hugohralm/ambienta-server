@@ -43,7 +43,7 @@ public class DefaultController {
       return ResponseEntity.status(status).header(CONTENT_RANGE_HEADER, paginable.responsePageRange()).body(page);
    }
 
-   class ResponseHeaderPaginable {
+   static class ResponseHeaderPaginable {
       private final Integer page;
       private final Page<?> list;
       private Integer total;
@@ -84,7 +84,7 @@ public class DefaultController {
       }
    }
 
-   class ResponseHeader {
+   static class ResponseHeader {
 
       private HttpStatus status;
       private final List<?> list;

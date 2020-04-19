@@ -27,8 +27,7 @@ public class Usuario {
    @JsonIgnore
    @Id
    @Column(name = "ID")
-   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_SEQ")
-   @SequenceGenerator(name = "USUARIO_SEQ", sequenceName = "USUARIO_SEQ", allocationSize = 1)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
 
    @Column(name = "DataCadastro", nullable = false, updatable = false)

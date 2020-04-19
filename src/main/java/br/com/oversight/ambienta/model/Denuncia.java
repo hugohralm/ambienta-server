@@ -30,8 +30,7 @@ public class Denuncia implements Serializable {
 
    @Id
    @Column(name = "ID")
-   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DENUNCIA_SEQ")
-   @SequenceGenerator(name = "DENUNCIA_SEQ", sequenceName = "DENUNCIA_SEQ", allocationSize = 1)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
 
    @Column(nullable = false, updatable = false)

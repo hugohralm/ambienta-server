@@ -1,32 +1,38 @@
---- 
-jwt: 
+---
+jwt:
   base64-secret: ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=
   header: Authorization
-  route: 
-    authentication: 
+  route:
+    authentication:
       path: auth
       refresh: refresh
   token-validity-in-seconds: 86400
-logging: 
-  level: 
+logging:
+  level:
     org.zerhusen.security: DEBUG
-server: 
-  servlet: 
+server:
+  servlet:
     context-path: /
-spring: 
-  datasource: 
+spring:
+  datasource:
     password: "${JDBC_DATABASE_PASSWORD}"
     url: "${JDBC_DATABASE_URL}"
     username: "${JDBC_DATABASE_USERNAME}"
-  devtools: 
-    restart: 
+  devtools:
+    restart:
       enabled: true
-  h2: 
-    console: 
+  h2:
+    console:
       enabled: true
-  jackson: 
-    serialization: 
+  jackson:
+    serialization:
       INDENT_OUTPUT: true
-  jpa: 
-    hibernate: 
+  jpa:
+    hibernate:
       ddl-auto: create-drop
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+      file-size-threshold: 10MB

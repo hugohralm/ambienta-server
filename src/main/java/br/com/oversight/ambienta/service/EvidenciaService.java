@@ -17,6 +17,9 @@ import java.util.Map;
 public class EvidenciaService {
 
    @Autowired
+   private DenunciaService denunciaService;
+
+   @Autowired
    private EvidenciaRepository repository;
 
    @Autowired
@@ -25,6 +28,8 @@ public class EvidenciaService {
    public Evidencia create(MultipartFile file, Integer id) {
       Map uploadResult = cloudinaryService.uploadFile(file);
       Evidencia evidencia = createEvidenciaObject(uploadResult);
+      Denuncia denuncia = denunciaService.read(id);
+      evidencia.setDenuncia(denuncia);
       return repository.saveAndFlush(evidencia);
    }
 

@@ -16,7 +16,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 @Entity
@@ -88,6 +90,9 @@ public class Denuncia implements Serializable {
    @Length(max = 255, message = "O limite do campo email é de 255 caracteres.")
    @Column(updatable = false)
    private String email;
+
+   @OneToMany(mappedBy = "denuncia")
+   private Set<Evidencia> evidencias = new HashSet<>();
 
    @PrePersist
    private void prePersist() {

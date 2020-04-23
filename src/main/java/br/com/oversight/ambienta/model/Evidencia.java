@@ -1,5 +1,6 @@
 package br.com.oversight.ambienta.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -44,8 +46,9 @@ public class Evidencia implements Serializable {
    @Column(nullable = false)
    private String url;
 
-   @ManyToOne(optional = true)
-//   @NotNull(message = "Informe qual a denúncia.")
+   @JsonIgnore
+   @ManyToOne(optional = false)
+   @NotNull(message = "Informe qual a denúncia.")
    private Denuncia denuncia;
 
    @PrePersist

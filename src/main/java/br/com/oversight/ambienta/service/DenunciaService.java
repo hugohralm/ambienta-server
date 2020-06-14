@@ -31,9 +31,8 @@ public class DenunciaService {
       return repository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Denúncia %d", id)));
    }
 
-   public Denuncia readByCodigoAcompanhamento(String codigoAcompanhamento) {
-      return repository.findByCodigoAcompanhamento(codigoAcompanhamento)
-         .orElseThrow(() -> new EntityNotFoundException(String.format("Denúncia %d", codigoAcompanhamento)));
+   public List<Denuncia> readByCodigoAcompanhamento(List<String> codigos) {
+      return repository.findByCodigoAcompanhamento(codigos);
    }
 
    public Page<Denuncia> read(String titulo, Pageable pageable) {

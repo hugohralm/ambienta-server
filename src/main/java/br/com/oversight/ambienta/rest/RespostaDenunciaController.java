@@ -28,7 +28,7 @@ public class RespostaDenunciaController extends DefaultController {
    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
    @ResponseStatus(HttpStatus.CREATED)
    @ApiOperation(value = "Armazena o registro da resposta denúncia.")
-   public ResponseEntity<?> create(@Valid @RequestBody RespostaDenuncia respostaDenuncia) {
+   public ResponseEntity<?> create(@RequestBody RespostaDenuncia respostaDenuncia) {
       log.trace("Criando resposta denúncia {}", respostaDenuncia);
       respostaDenuncia = service.create(respostaDenuncia);
       HttpHeaders responseHeaders = getHttpHeaders(respostaDenuncia.getId());

@@ -15,5 +15,4 @@ import java.util.List;
  */
 @Repository
 public interface RespostaDenunciaRepository extends IRepository<RespostaDenuncia, Integer> {
-   List<RespostaDenuncia> findAllByDenunciaOrderByDataCadastroAsc(Denuncia denuncia);
 }

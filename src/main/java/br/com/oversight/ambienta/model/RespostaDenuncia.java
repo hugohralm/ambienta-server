@@ -2,7 +2,6 @@ package br.com.oversight.ambienta.model;
 
 import br.com.oversight.ambienta.model.enums.EnumStatusDenuncia;
 import br.com.oversight.ambienta.security.model.Usuario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,7 +43,6 @@ public class RespostaDenuncia implements Serializable {
    @Column(length = 2048, nullable = false, updatable = false)
    private String descricao;
 
-   @JsonIgnore
    @ManyToOne
    @NotNull(message = "O campo denúncia é obrigatório")
    @JoinColumn(nullable = false, updatable = false)

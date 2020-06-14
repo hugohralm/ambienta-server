@@ -46,7 +46,6 @@ public class Evidencia implements Serializable {
    @Column(nullable = false)
    private String url;
 
-   @JsonIgnore
    @ManyToOne(optional = false)
    @NotNull(message = "Informe qual a denúncia.")
    private Denuncia denuncia;

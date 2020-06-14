@@ -2,6 +2,7 @@ package br.com.oversight.ambienta.model;
 
 import br.com.oversight.ambienta.model.enums.EnumStatusDenuncia;
 import br.com.oversight.ambienta.util.Util;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -92,9 +93,11 @@ public class Denuncia implements Serializable {
    private String email;
 
    @OneToMany(mappedBy = "denuncia")
+   @JsonIgnoreProperties("denuncia")
    private Set<Evidencia> evidencias = new HashSet<>();
 
    @OneToMany(mappedBy = "denuncia")
+   @JsonIgnoreProperties("denuncia")
    private Set<RespostaDenuncia> respostas = new HashSet<>();
 
    @PrePersist

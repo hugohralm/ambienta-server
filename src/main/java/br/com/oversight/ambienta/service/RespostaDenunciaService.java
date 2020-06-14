@@ -28,9 +28,10 @@ public class RespostaDenunciaService {
    public RespostaDenuncia create(RespostaDenuncia respostaDenuncia) {
       Optional<Usuario> usuario = usuarioService.getUserWithAuthorities();
       if (usuario.isPresent()) {
+         Denuncia denuncia = denunciaService.read(respostaDenuncia.getDenuncia().getId());
          respostaDenuncia.setUsuario(usuario.get());
+         respostaDenuncia.setDenuncia(denuncia);
          RespostaDenuncia rd = repository.saveAndFlush(respostaDenuncia);
-         Denuncia denuncia = denunciaService.read(rd.getDenuncia().getId());
          denuncia.setStatus(rd.getStatus());
          denunciaService.update(denuncia);
          return rd;

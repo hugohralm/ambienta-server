@@ -3,11 +3,14 @@ package br.com.oversight.ambienta.service;
 import br.com.oversight.ambienta.model.Denuncia;
 import br.com.oversight.ambienta.model.RespostaDenuncia;
 import br.com.oversight.ambienta.repository.RespostaDenunciaRepository;
+import br.com.oversight.ambienta.security.model.Usuario;
+import br.com.oversight.ambienta.security.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 @Transactional(rollbackFor = Throwable.class)
@@ -19,12 +22,21 @@ public class RespostaDenunciaService {
    @Autowired
    private DenunciaService denunciaService;
 
+   @Autowired
+   private UsuarioService usuarioService;
+
    public RespostaDenuncia create(RespostaDenuncia respostaDenuncia) {
-      RespostaDenuncia rd = repository.saveAndFlush(respostaDenuncia);
-      Denuncia denuncia = denunciaService.read(rd.getDenuncia().getId());
-      denuncia.setStatus(rd.getStatus());
-      denunciaService.update(denuncia);
-      return rd;
+      Optional<Usuario> usuario = usuarioService.getUserWithAuthorities();
+      if (usuario.isPresent()) {
+         respostaDenuncia.setUsuario(usuario.get());
+         RespostaDenuncia rd = repository.saveAndFlush(respostaDenuncia);
+         Denuncia denuncia = denunciaService.read(rd.getDenuncia().getId());
+         denuncia.setStatus(rd.getStatus());
+         denunciaService.update(denuncia);
+         return rd;
+      } else {
+         return null;
+      }
    }
 
    public RespostaDenuncia read(Integer id) {

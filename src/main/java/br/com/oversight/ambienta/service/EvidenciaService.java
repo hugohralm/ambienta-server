@@ -39,7 +39,11 @@ public class EvidenciaService {
       evidencia.setAssinatura(uploadResult.get("signature").toString());
       evidencia.setFormato(uploadResult.get("format").toString());
       evidencia.setTipoArquivo(uploadResult.get("resource_type").toString());
-      evidencia.setUrl(uploadResult.get("url").toString());
+      String url = uploadResult.get("url").toString();
+      if (url.contains("http:")) {
+         url = url.replace("http:", "https:");
+      }
+      evidencia.setUrl(url);
       return evidencia;
    }
 
@@ -49,10 +53,6 @@ public class EvidenciaService {
 
    public Evidencia read(Integer id) {
       return repository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Evidencia %d", id)));
-   }
-
-   public List<Evidencia> readByDenuncia(Denuncia denuncia) {
-      return repository.findAllByDenunciaIdOrderById(denuncia.getId());
    }
 
    public void update(Evidencia evidencia) {

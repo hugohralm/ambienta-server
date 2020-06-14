@@ -2,7 +2,6 @@ package br.com.oversight.ambienta.rest;
 
 import br.com.oversight.ambienta.model.Denuncia;
 import br.com.oversight.ambienta.model.Municipio;
-import br.com.oversight.ambienta.model.TipoCategoria;
 import br.com.oversight.ambienta.service.DenunciaService;
 import br.com.oversight.ambienta.service.LocationService;
 import io.swagger.annotations.ApiOperation;
@@ -113,7 +112,7 @@ public class DenunciaController extends DefaultController {
    }
 
    /**
-    * Atualização registro de um {@link TipoCategoria}
+    * Atualização registro de um {@link Denuncia}
     *
     * @param id       Identificador do recurso
     * @param denuncia Representação do recurso

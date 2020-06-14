@@ -94,6 +94,9 @@ public class Denuncia implements Serializable {
    @OneToMany(mappedBy = "denuncia")
    private Set<Evidencia> evidencias = new HashSet<>();
 
+   @OneToMany(mappedBy = "denuncia")
+   private Set<RespostaDenuncia> respostas = new HashSet<>();
+
    @PrePersist
    private void prePersist() {
       this.dataCadastro = new Date();

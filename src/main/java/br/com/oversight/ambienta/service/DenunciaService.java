@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,7 +33,7 @@ public class DenunciaService {
    }
 
    public List<Denuncia> readByCodigoAcompanhamento(List<String> codigos) {
-      return repository.findByCodigoAcompanhamento(codigos);
+      return (codigos != null && codigos.size() > 0)? repository.findByCodigoAcompanhamento(codigos) : new ArrayList<>();
    }
 
    public Page<Denuncia> read(String titulo, Pageable pageable) {

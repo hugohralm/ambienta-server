@@ -33,4 +33,9 @@ public class UsuarioService {
    public Usuario create(UsuarioDto usuarioDto) {
       return null;
    }
+
+   public Usuario findUsuarioAdmin() {
+      Optional<Usuario> usuario = usuarioRepository.findOneWithPapelByCpf("11111111111");
+      return usuario.get();
+   }
 }

@@ -49,8 +49,7 @@ public class RespostaDenuncia implements Serializable {
    private Denuncia denuncia;
 
    @ManyToOne
-   @NotNull(message = "O campo usuário é obrigatório")
-   @JoinColumn(nullable = false, updatable = false)
+   @JoinColumn(updatable = false)
    private Usuario usuario;
 
    @PrePersist

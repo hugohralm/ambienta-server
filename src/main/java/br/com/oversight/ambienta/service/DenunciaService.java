@@ -1,7 +1,10 @@
 package br.com.oversight.ambienta.service;
 
 import br.com.oversight.ambienta.model.Denuncia;
+import br.com.oversight.ambienta.model.RespostaDenuncia;
 import br.com.oversight.ambienta.repository.DenunciaRepository;
+import br.com.oversight.ambienta.security.model.Usuario;
+import br.com.oversight.ambienta.security.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +23,17 @@ public class DenunciaService {
    @Autowired
    private DenunciaRepository repository;
 
+   @Autowired
+   private UsuarioService usuarioService;
+
    public Denuncia create(Denuncia denuncia) {
-      return repository.saveAndFlush(denuncia);
+      Denuncia dn = repository.saveAndFlush(denuncia);
+      Usuario usuario = usuarioService.findUsuarioAdmin();
+      RespostaDenuncia respostaDenuncia = new RespostaDenuncia();
+      respostaDenuncia.setDenuncia(dn);
+      respostaDenuncia.setUsuario(usuario);
+      respostaDenuncia.setDescricao("Denúncia recebida pelo sistema, favor aguardar análise do órgão gestor.");
+      return dn;
    }
 
    public List<Denuncia> read() {

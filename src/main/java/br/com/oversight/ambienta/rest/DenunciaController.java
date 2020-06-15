@@ -71,7 +71,7 @@ public class DenunciaController extends DefaultController {
    @GetMapping(path = "/acompanhar", produces = {MediaType.APPLICATION_JSON_VALUE})
    @ResponseStatus(HttpStatus.OK)
    @ApiOperation(value = "Retorna a denúncia pelo seu código de acompanhamento.")
-   public ResponseEntity<?> read(@RequestParam(name = "codigo") List<String> codigos) {
+   public ResponseEntity<?> read(@RequestParam(name = "codigo", required = false, defaultValue = "") List<String> codigos) {
       log.trace("Buscando denuncias por array de código{}", codigos.toString());
       List<Denuncia> denuncias = service.readByCodigoAcompanhamento(codigos);
       return ResponseEntity.ok().body(denuncias);

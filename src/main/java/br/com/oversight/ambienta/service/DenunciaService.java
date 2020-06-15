@@ -26,6 +26,9 @@ public class DenunciaService {
    @Autowired
    private UsuarioService usuarioService;
 
+   @Autowired
+   private RespostaDenunciaService respostaDenunciaService;
+
    public Denuncia create(Denuncia denuncia) {
       Denuncia dn = repository.saveAndFlush(denuncia);
       Usuario usuario = usuarioService.findUsuarioAdmin();
@@ -33,6 +36,7 @@ public class DenunciaService {
       respostaDenuncia.setDenuncia(dn);
       respostaDenuncia.setUsuario(usuario);
       respostaDenuncia.setDescricao("Denúncia recebida pelo sistema, favor aguardar análise do órgão gestor.");
+      respostaDenunciaService.create(respostaDenuncia);
       return dn;
    }
 

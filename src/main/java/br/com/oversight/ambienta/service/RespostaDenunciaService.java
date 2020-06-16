@@ -26,13 +26,28 @@ public class RespostaDenunciaService {
    @Autowired
    private UsuarioService usuarioService;
 
-   public RespostaDenuncia create(RespostaDenunciaTO respostaDenunciaTO) {
+   public RespostaDenuncia createDTO(RespostaDenunciaTO respostaDenunciaTO) {
       Optional<Usuario> usuario = usuarioService.getUserWithAuthorities();
       if (usuario.isPresent()) {
          Denuncia denuncia = denunciaService.read(respostaDenunciaTO.getDenuncia().getId());
          RespostaDenuncia respostaDenuncia = new RespostaDenuncia();
          respostaDenuncia.setStatus(respostaDenunciaTO.getStatus());
          respostaDenuncia.setDescricao(respostaDenunciaTO.getDescricao());
+         respostaDenuncia.setUsuario(usuario.get());
+         respostaDenuncia.setDenuncia(denuncia);
+         RespostaDenuncia rd = repository.saveAndFlush(respostaDenuncia);
+         denuncia.setStatus(rd.getStatus());
+         denunciaService.update(denuncia);
+         return rd;
+      } else {
+         return null;
+      }
+   }
+
+   public RespostaDenuncia create(RespostaDenuncia respostaDenuncia) {
+      Optional<Usuario> usuario = usuarioService.getUserWithAuthorities();
+      if (usuario.isPresent()) {
+         Denuncia denuncia = denunciaService.read(respostaDenuncia.getDenuncia().getId());
          respostaDenuncia.setUsuario(usuario.get());
          respostaDenuncia.setDenuncia(denuncia);
          RespostaDenuncia rd = repository.saveAndFlush(respostaDenuncia);

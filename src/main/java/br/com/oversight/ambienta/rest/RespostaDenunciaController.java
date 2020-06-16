@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @Log4j2
 @RestController
 @RequestMapping(value = "/api/respostas-denuncias")
@@ -31,7 +29,7 @@ public class RespostaDenunciaController extends DefaultController {
    @ApiOperation(value = "Armazena o registro da resposta denúncia.")
    public ResponseEntity<?> create(@RequestBody RespostaDenunciaTO respostaDenunciaTO) {
       log.trace("Criando resposta denúncia {}", respostaDenunciaTO);
-      RespostaDenuncia respostaDenuncia = service.create(respostaDenunciaTO);
+      RespostaDenuncia respostaDenuncia = service.createDTO(respostaDenunciaTO);
       HttpHeaders responseHeaders = getHttpHeaders(respostaDenuncia.getId());
       return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(respostaDenuncia);
    }

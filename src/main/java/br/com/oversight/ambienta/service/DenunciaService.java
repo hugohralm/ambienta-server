@@ -2,6 +2,7 @@ package br.com.oversight.ambienta.service;
 
 import br.com.oversight.ambienta.model.Denuncia;
 import br.com.oversight.ambienta.model.RespostaDenuncia;
+import br.com.oversight.ambienta.model.enums.EnumStatusDenuncia;
 import br.com.oversight.ambienta.repository.DenunciaRepository;
 import br.com.oversight.ambienta.repository.RespostaDenunciaRepository;
 import br.com.oversight.ambienta.security.model.Usuario;
@@ -36,6 +37,7 @@ public class DenunciaService {
       RespostaDenuncia respostaDenuncia = new RespostaDenuncia();
       respostaDenuncia.setDenuncia(dn);
       respostaDenuncia.setUsuario(usuario);
+      respostaDenuncia.setStatus(EnumStatusDenuncia.AGUARDANDO_ANALISE);
       respostaDenuncia.setDescricao("Denúncia recebida pelo sistema, favor aguardar análise do órgão gestor.");
       respostaDenunciaRepository.saveAndFlush(respostaDenuncia);
       return dn;

@@ -3,6 +3,7 @@ package br.com.oversight.ambienta.service;
 import br.com.oversight.ambienta.model.Denuncia;
 import br.com.oversight.ambienta.model.RespostaDenuncia;
 import br.com.oversight.ambienta.repository.DenunciaRepository;
+import br.com.oversight.ambienta.repository.RespostaDenunciaRepository;
 import br.com.oversight.ambienta.security.model.Usuario;
 import br.com.oversight.ambienta.security.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class DenunciaService {
    private UsuarioService usuarioService;
 
    @Autowired
-   private RespostaDenunciaService respostaDenunciaService;
+   private RespostaDenunciaRepository respostaDenunciaRepository;
 
    public Denuncia create(Denuncia denuncia) {
       Denuncia dn = repository.saveAndFlush(denuncia);
@@ -36,7 +37,7 @@ public class DenunciaService {
       respostaDenuncia.setDenuncia(dn);
       respostaDenuncia.setUsuario(usuario);
       respostaDenuncia.setDescricao("Denúncia recebida pelo sistema, favor aguardar análise do órgão gestor.");
-      respostaDenunciaService.create(respostaDenuncia);
+      respostaDenunciaRepository.saveAndFlush(respostaDenuncia);
       return dn;
    }
 
@@ -49,7 +50,7 @@ public class DenunciaService {
    }
 
    public List<Denuncia> readByCodigoAcompanhamento(List<String> codigos) {
-      return (codigos != null && codigos.size() > 0)? repository.findByCodigoAcompanhamento(codigos) : new ArrayList<>();
+      return (codigos != null && codigos.size() > 0) ? repository.findByCodigoAcompanhamento(codigos) : new ArrayList<>();
    }
 
    public Page<Denuncia> read(String titulo, Pageable pageable) {

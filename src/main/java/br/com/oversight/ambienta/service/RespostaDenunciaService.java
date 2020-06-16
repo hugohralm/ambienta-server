@@ -44,21 +44,6 @@ public class RespostaDenunciaService {
       }
    }
 
-   public RespostaDenuncia create(RespostaDenuncia respostaDenuncia) {
-      Optional<Usuario> usuario = usuarioService.getUserWithAuthorities();
-      if (usuario.isPresent()) {
-         Denuncia denuncia = denunciaService.read(respostaDenuncia.getDenuncia().getId());
-         respostaDenuncia.setUsuario(usuario.get());
-         respostaDenuncia.setDenuncia(denuncia);
-         RespostaDenuncia rd = repository.saveAndFlush(respostaDenuncia);
-         denuncia.setStatus(rd.getStatus());
-         denunciaService.update(denuncia);
-         return rd;
-      } else {
-         return null;
-      }
-   }
-
    public RespostaDenuncia read(Integer id) {
       return repository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Resposta denúncia %d", id)));
    }

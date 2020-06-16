@@ -2,6 +2,7 @@ package br.com.oversight.ambienta.service;
 
 import br.com.oversight.ambienta.model.Denuncia;
 import br.com.oversight.ambienta.model.RespostaDenuncia;
+import br.com.oversight.ambienta.model.dto.RespostaDenunciaTO;
 import br.com.oversight.ambienta.repository.RespostaDenunciaRepository;
 import br.com.oversight.ambienta.security.model.Usuario;
 import br.com.oversight.ambienta.security.service.UsuarioService;
@@ -25,10 +26,13 @@ public class RespostaDenunciaService {
    @Autowired
    private UsuarioService usuarioService;
 
-   public RespostaDenuncia create(RespostaDenuncia respostaDenuncia) {
+   public RespostaDenuncia create(RespostaDenunciaTO respostaDenunciaTO) {
       Optional<Usuario> usuario = usuarioService.getUserWithAuthorities();
       if (usuario.isPresent()) {
-         Denuncia denuncia = denunciaService.read(respostaDenuncia.getDenuncia().getId());
+         Denuncia denuncia = denunciaService.read(respostaDenunciaTO.getDenuncia().getId());
+         RespostaDenuncia respostaDenuncia = new RespostaDenuncia();
+         respostaDenuncia.setStatus(respostaDenunciaTO.getStatus());
+         respostaDenuncia.setDescricao(respostaDenunciaTO.getDescricao());
          respostaDenuncia.setUsuario(usuario.get());
          respostaDenuncia.setDenuncia(denuncia);
          RespostaDenuncia rd = repository.saveAndFlush(respostaDenuncia);

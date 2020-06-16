@@ -2,6 +2,7 @@ package br.com.oversight.ambienta.rest;
 
 import br.com.oversight.ambienta.model.Denuncia;
 import br.com.oversight.ambienta.model.RespostaDenuncia;
+import br.com.oversight.ambienta.model.dto.RespostaDenunciaTO;
 import br.com.oversight.ambienta.service.RespostaDenunciaService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
@@ -22,15 +23,15 @@ public class RespostaDenunciaController extends DefaultController {
    /**
     * Armazena um {@link Denuncia} no sistema
     *
-    * @param respostaDenuncia Representação do recurso
+    * @param respostaDenunciaTO Representação do recurso
     * @return ResponseEntity
     */
    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
    @ResponseStatus(HttpStatus.CREATED)
    @ApiOperation(value = "Armazena o registro da resposta denúncia.")
-   public ResponseEntity<?> create(@RequestBody RespostaDenuncia respostaDenuncia) {
-      log.trace("Criando resposta denúncia {}", respostaDenuncia);
-      respostaDenuncia = service.create(respostaDenuncia);
+   public ResponseEntity<?> create(@RequestBody RespostaDenunciaTO respostaDenunciaTO) {
+      log.trace("Criando resposta denúncia {}", respostaDenunciaTO);
+      RespostaDenuncia respostaDenuncia = service.create(respostaDenunciaTO);
       HttpHeaders responseHeaders = getHttpHeaders(respostaDenuncia.getId());
       return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(respostaDenuncia);
    }
